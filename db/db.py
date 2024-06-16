@@ -1,3 +1,4 @@
+import os
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker, relationship
@@ -5,7 +6,13 @@ from sqlalchemy.orm import Session, sessionmaker, relationship
 from models.Artist import Artist as ArtistModel
 from models.Song import Song as SongModel
 
-DATABASE_URL = "mysql+pymysql://root:Adivinala1.@127.0.0.1:3307/Floppotron"
+DB_HOST = os.getenv("DB_HOST", "")
+DB_USER = os.getenv("DB_USER", "")
+DB_PSWD = os.getenv("DB_PSWD", "")
+DB = os.getenv("DB", "")
+# Conexión a la base de datos
+DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PSWD}@{DB_HOST}:3307/{DB}"
+
 Base = declarative_base()
 
 # Crear las tablas en la base de datos
