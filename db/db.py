@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session, sessionmaker, relationship
 from models.Artist import Artist as ArtistModel
 from models.Song import Song as SongModel
 
-DATABASE_URL = "mysql+pymysql://root:Adivinala1.@127.0.0.1:3306/Floppotron"
+DATABASE_URL = "mysql+pymysql://root:Adivinala1.@127.0.0.1:3307/Floppotron"
 Base = declarative_base()
 
 # Crear las tablas en la base de datos
