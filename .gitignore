@@ -1,3 +1,6 @@
+# DB
+data/mysql-data/
+
 # IDE
 .vscode
 

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session, sessionmaker, relationship
 from models.Artist import Artist as ArtistModel
 from models.Song import Song as SongModel
 
-DATABASE_URL = "sqlite:///data/floppotron.db"
+DATABASE_URL = "mysql+pymysql://root:Adivinala1.@127.0.0.1:3307/Floppotron"
 Base = declarative_base()
 
 # Crear las tablas en la base de datos
@@ -16,8 +16,8 @@ class Artist(Base):
 
     id = Column(Integer, primary_key=True,
                 autoincrement=True, index=True, nullable=True)
-    name = Column(String, index=True, nullable=False)
-    country = Column(String, nullable=True)
+    name = Column(String(50), index=True, nullable=False)
+    country = Column(String(25), nullable=True)
     born_year = Column(Integer, nullable=True)
 
     songs = relationship("Song", back_populates="artist")
@@ -31,12 +31,12 @@ class Song(Base):
 
     id = Column(Integer, primary_key=True,
                 autoincrement=True, index=True, nullable=True)
-    name = Column(String, index=True, nullable=False)
+    name = Column(String(50), index=True, nullable=False)
     artist_id = Column(Integer, ForeignKey("artists.id"))
     created_year = Column(Integer, nullable=True)
-    format_type = Column(String, nullable=True)
+    format_type = Column(String(10), nullable=True)
     duration = Column(Integer, nullable=True)
-    path = Column(String, nullable=False)
+    path = Column(String(100), nullable=False)
 
     artist = relationship("Artist", back_populates="songs")
 
@@ -92,7 +92,7 @@ def get_songs(limit, offset, order_dict, filter_dict):
             result = query.all()
 
             if not result:
-                return {"error": f"No se han encontrado canciones"}
+                return None
 
             songs = [repr(song) for song in result]
 
@@ -112,7 +112,7 @@ def get_song(song_id):
             result = query.first()
 
             if not result:
-                return {"error": f"No se ha encontrado la canción"}
+                return None
 
             song = repr(result)
 
@@ -207,7 +207,7 @@ def get_artists(limit, offset, order_dict, filter_dict):
             result = query.all()
 
             if not result:
-                return {"error": f"No se han encontrado artistas"}
+                return None
 
             artists = [repr(artist) for artist in result]
 
@@ -226,7 +226,7 @@ def get_artist(artist_id):
             result = query.first()
 
             if not result:
-                return {"error": f"No se ha encontrado el artista"}
+                return None
 
             artist = repr(result)
 
