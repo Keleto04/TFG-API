@@ -1,4 +1,4 @@
-# API para el TFG con tecnologías FastAPI, SQLAlchemy y SQLite para un CRUD de canciones y artistas
+# API para el TFG con tecnologías FastAPI, SQLAlchemy y MySQL para un CRUD de canciones y artistas
 
 ## Setup del proyecto
 Este proyecto está preparado para contenerizarse junto a un servidor de MySQL
