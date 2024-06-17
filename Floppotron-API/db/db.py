@@ -1,4 +1,4 @@
-import os
+import os, time
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker, relationship
@@ -9,9 +9,11 @@ from models.Song import Song as SongModel
 DB_HOST = os.getenv("DB_HOST", "")
 DB_USER = os.getenv("DB_USER", "")
 DB_PSWD = os.getenv("DB_PSWD", "")
-DB = os.getenv("DB", "")
+DB_NAME = os.getenv("DB_NAME", "")
 # Conexión a la base de datos
-DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PSWD}@{DB_HOST}:3307/{DB}"
+DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PSWD}@{DB_HOST}:3306/{DB_NAME}"
+
+print(DATABASE_URL)
 
 Base = declarative_base()
 
@@ -51,8 +53,20 @@ class Song(Base):
         return f"{self.name} composed by {self.artist.name} created in {self.created_year} in format {self.format_type} with duration {self.duration} and path {self.path}"
 
 
+def get_engine():
+    while True:
+        try:
+            engine = create_engine(DATABASE_URL, echo=True)
+            engine.connect()
+            return engine
+        except Exception as e:
+            # Esperar al servicio de MySQL
+            print("No se pudo conectar a la base de datos, reintentando en 5s...")
+            time.sleep(5)
+            
 # Crear la base de datos
-engine = create_engine(DATABASE_URL, echo=True)
+engine = get_engine()
+
 # Crear la tabla en la base de datos
 Base.metadata.create_all(bind=engine)
 # Crear la sesión de la base de datos
