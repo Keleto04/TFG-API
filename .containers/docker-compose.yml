@@ -1,0 +1,25 @@
+services:
+  api:
+    container_name: floppotron-api
+    build:
+      context: ..
+      dockerfile: .containers/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=mysql-server
+      - DB_USER=root
+      - DB_PSWD=Adivinala1.
+      - DB_NAME=Floppotron
+    depends_on:
+      - mysql-server
+
+  mysql-server:
+    image: mysql:latest
+    container_name: mysql-server
+    restart: always
+    environment:
+      MYSQL_DATABASE: Floppotron
+      MYSQL_ROOT_PASSWORD: Adivinala1.
+    ports:
+      - "3307:3306"
