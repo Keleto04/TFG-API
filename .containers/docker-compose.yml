@@ -1,5 +1,6 @@
 services:
   api:
+    image: floppotron-api:latest
     container_name: floppotron-api
     build:
       context: ..
